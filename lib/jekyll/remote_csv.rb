@@ -47,6 +47,8 @@ module Jekyll
         collection = Collection.new(site, source_name)
         csv_data.each do |item|
           item_id_field = conf.fetch('collection_slug_field', item.keys.first)
+          filter = conf.fetch('filter', {})
+          next unless filter.all? { |k, v| item[k] == v }
           path = File.join(site.source, "_#{source_name}", "#{Jekyll::Utils.slugify(item[item_id_field])}.md")
           doc = Document.new(path, collection: collection, site: site)
           doc.merge_data!(item)

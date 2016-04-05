@@ -101,4 +101,10 @@ class Jekyll::RemoteCsvTest < Minitest::Test
     refute_nil edu_doc
     assert_equal 'Bachelor of Laws (LLB)', edu_doc['education_by_role']['title']
   end
+
+  def test_filter
+    site.config['remote_csv']['education']['filter'] = { 'name' => 'Thamsanqa Mahlangu' }
+    site.generate
+    assert_equal 3, site.collections['education'].size
+  end
 end
